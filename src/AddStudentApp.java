@@ -51,8 +51,9 @@ public class AddStudentApp {
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                	 IStudentRepository repo = new SQLiteStudentRepository("students.db");
                 	AddStudentService service = new AddStudentService(
-                			new SQLiteStudentRepository("students.db"));
+                			repo);
                     service.addStudent(
                         txtId.getText(),
                         txtName.getText(),

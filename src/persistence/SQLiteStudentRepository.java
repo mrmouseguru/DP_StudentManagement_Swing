@@ -8,8 +8,12 @@ import java.sql.*;
 public class SQLiteStudentRepository implements IStudentRepository {
     private Connection conn;
 
-    public SQLiteStudentRepository(String dbPath) throws SQLException {
+    public SQLiteStudentRepository(String dbPath) throws SQLException, ClassNotFoundException {
+    	Class.forName("org.sqlite.JDBC");
+
         conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+        System.out.println("Connected!");
+
         createTable();
     }
 
