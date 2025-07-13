@@ -26,20 +26,40 @@ public class AddStudentService {
         validateBirth(birth);
         validateMajor(major);
 
-        StudentDTO dto = new StudentDTO();
-        dto.id = id;
-        dto.name = name;
-        dto.birth = birth;
-        dto.major = major;
+        Student student;
         if (major.equals("Kỹ thuật phần mềm")) {
-            dto.java = parseScore(javaStr, "Java");
-            dto.html = parseScore(htmlStr, "HTML");
-            dto.css = parseScore(cssStr, "CSS");
+            student = new SoftwareStudent(id, name, birth,
+                parseScore(javaStr, "Java"),
+                parseScore(htmlStr, "HTML"),
+                parseScore(cssStr, "CSS"));
         } else {
-            dto.marketing = parseScore(marketingStr, "Marketing");
-            dto.sales = parseScore(salesStr, "Sales");
+            student = new EconomicsStudent(id, name, birth,
+                parseScore(marketingStr, "Marketing"),
+                parseScore(salesStr, "Sales"));
         }
+        StudentDTO dto = this.toDTO(student);
         repository.insert(dto);
+    }
+    // Chuyển đối tượng Student sang StudentDTO
+    private StudentDTO toDTO(Student student) {
+        StudentDTO dto = new StudentDTO();
+        dto.id = student.getId();
+        dto.name = student.getName();
+        dto.birth = student.getBirthDate();
+        dto.major = student.getMajor();
+        dto.gpa = student.calculateGPA();
+        dto.academicRank = student.classifyAcademic();
+        if (student instanceof SoftwareStudent) {
+            SoftwareStudent s = (SoftwareStudent) student;
+            dto.java = s.getJavaScore();
+            dto.html = s.getHtmlScore();
+            dto.css = s.getCssScore();
+        } else if (student instanceof EconomicsStudent) {
+            EconomicsStudent e = (EconomicsStudent) student;
+            dto.marketing = e.getMarketingScore();
+            dto.sales = e.getSalesScore();
+        }
+        return dto;
     }
 
     private void validateId(String id) throws Exception {

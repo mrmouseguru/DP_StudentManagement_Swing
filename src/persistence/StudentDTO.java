@@ -10,4 +10,6 @@ public class StudentDTO {
     public Double css;
     public Double marketing;
     public Double sales;
+    public Double gpa;
+    public String academicRank;
 }

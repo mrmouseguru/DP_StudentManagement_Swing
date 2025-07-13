@@ -7,7 +7,7 @@ public class SQLiteStudentRepository implements IStudentRepository {
     private Connection conn;
 
     public SQLiteStudentRepository(String dbPath) throws SQLException, ClassNotFoundException {
-    	Class.forName("org.sqlite.JDBC");
+        Class.forName("org.sqlite.JDBC");
 
         conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
         System.out.println("Connected!");
@@ -56,8 +56,8 @@ public class SQLiteStudentRepository implements IStudentRepository {
             ps.setObject(8, student.marketing, java.sql.Types.REAL);
             ps.setObject(9, student.sales, java.sql.Types.REAL);
         }
-        ps.setNull(10, java.sql.Types.REAL); // GPA tính ở business
-        ps.setNull(11, java.sql.Types.VARCHAR); // Academic classification tính ở business
+        ps.setObject(10, student.gpa, java.sql.Types.REAL);
+        ps.setString(11, student.academicRank);
         ps.executeUpdate();
         ps.close();
     }
