@@ -5,7 +5,8 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.util.List;
 import persistence.*;
-import business.*;
+import business.StudentListViewService;
+import business.StudentListViewModel;
 
 public class StudentListViewScreen {
     public static void main(String[] args) {
@@ -61,13 +62,14 @@ public class StudentListViewScreen {
         try {
             IStudentListViewRepository repo = new StudentListViewRepositoryImpl("students.db");
             StudentListViewService service = new StudentListViewService(repo);
-            List<Student> students = service.fetchAllStudents();
+            List<StudentListViewModel> students = service.fetchAllStudents();
 
             int i = 1;
-            for (Student s : students) {
+            for (StudentListViewModel s : students) {
                 model.addRow(new Object[] {
-                        i++, s.getId(), s.getName(), s.getBirthDate(),
-                        s.getMajor(), String.format("%.2f", s.calculateGPA()), s.classifyAcademic()
+                        i++, s.id, s.name, s.birth, s.major,
+                        s.gpa != null ? String.format("%.2f", s.gpa) : "",
+                        s.academicRank != null ? s.academicRank : ""
                 });
             }
 
