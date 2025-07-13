@@ -1,6 +1,7 @@
 package business;
 
 import persistence.*;
+import business.StudentFactory;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
@@ -18,17 +19,7 @@ public void addStudent(AddStudentRequest req) throws Exception {
         validateBirth(req.birth);
         validateMajor(req.major);
 
-        Student student;
-        if (req.major.equals("Kỹ thuật phần mềm")) {
-            student = new SoftwareStudent(req.id, req.name, req.birth,
-                parseScore(req.javaStr, "Java"),
-                parseScore(req.htmlStr, "HTML"),
-                parseScore(req.cssStr, "CSS"));
-        } else {
-            student = new EconomicsStudent(req.id, req.name, req.birth,
-                parseScore(req.marketingStr, "Marketing"),
-                parseScore(req.salesStr, "Sales"));
-        }
+        Student student = StudentFactory.create(req);
         StudentDTO dto = this.toDTO(student);
         repository.insert(dto);
     }
@@ -79,7 +70,7 @@ public void addStudent(AddStudentRequest req) throws Exception {
             throw new Exception("Ngành học không hợp lệ");
     }
 
-    private double parseScore(String input, String label) throws Exception {
+    public static double parseScore(String input, String label) throws Exception {
         if (input == null || input.trim().isEmpty())
             throw new Exception("Điểm " + label + " không được để trống");
         double score;
