@@ -52,10 +52,9 @@ public class AddStudentApp {
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                	 IStudentRepository repo = new SQLiteStudentRepository("students.db");
-                	AddStudentService service = new AddStudentService(
-                			repo);
-                    service.addStudent(
+                    IStudentRepository repo = new SQLiteStudentRepository("students.db");
+                    AddStudentService service = new AddStudentService(repo);
+                    business.AddStudentRequest req = new business.AddStudentRequest(
                         txtId.getText(),
                         txtName.getText(),
                         txtBirth.getText(),
@@ -66,6 +65,7 @@ public class AddStudentApp {
                         txtMarketing.getText(),
                         txtSales.getText()
                     );
+                    service.addStudent(req);
                     JOptionPane.showMessageDialog(frame, "Thêm sinh viên thành công!");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(frame, "Lỗi: " + ex.getMessage());

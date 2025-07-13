@@ -11,31 +11,23 @@ public class AddStudentService {
         this.repository = repository;
     }
 
-    public void addStudent(String id,
-                           String name,
-                           String birth,
-                           String major,
-                           String javaStr,
-                           String htmlStr,
-                           String cssStr,
-                           String marketingStr,
-                           String salesStr) throws Exception {
+public void addStudent(AddStudentRequest req) throws Exception {
         // Validation
-        validateId(id);
-        validateName(name);
-        validateBirth(birth);
-        validateMajor(major);
+        validateId(req.id);
+        validateName(req.name);
+        validateBirth(req.birth);
+        validateMajor(req.major);
 
         Student student;
-        if (major.equals("Kỹ thuật phần mềm")) {
-            student = new SoftwareStudent(id, name, birth,
-                parseScore(javaStr, "Java"),
-                parseScore(htmlStr, "HTML"),
-                parseScore(cssStr, "CSS"));
+        if (req.major.equals("Kỹ thuật phần mềm")) {
+            student = new SoftwareStudent(req.id, req.name, req.birth,
+                parseScore(req.javaStr, "Java"),
+                parseScore(req.htmlStr, "HTML"),
+                parseScore(req.cssStr, "CSS"));
         } else {
-            student = new EconomicsStudent(id, name, birth,
-                parseScore(marketingStr, "Marketing"),
-                parseScore(salesStr, "Sales"));
+            student = new EconomicsStudent(req.id, req.name, req.birth,
+                parseScore(req.marketingStr, "Marketing"),
+                parseScore(req.salesStr, "Sales"));
         }
         StudentDTO dto = this.toDTO(student);
         repository.insert(dto);
