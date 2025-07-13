@@ -34,6 +34,8 @@ public class StudentListViewRepositoryImpl implements IStudentListViewRepository
             dto.css = rs.getObject("css") != null ? rs.getDouble("css") : null;
             dto.marketing = rs.getObject("marketing") != null ? rs.getDouble("marketing") : null;
             dto.sales = rs.getObject("sales") != null ? rs.getDouble("sales") : null;
+            dto.gpa = rs.getObject("gpa") != null ? rs.getDouble("gpa") : null;
+            dto.academicRank = rs.getString("hocluc");
             list.add(dto);
         }
 
