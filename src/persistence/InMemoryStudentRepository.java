@@ -1,13 +1,13 @@
 package persistence;
 
-import business.Student;
+import persistence.StudentDTO;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryStudentRepository implements IStudentRepository {
-    private Map<String, Student> studentMap = new HashMap<>();
+    private Map<String, StudentDTO> studentMap = new HashMap<>();
 
     @Override
     public boolean exists(String id) throws SQLException {
@@ -15,12 +15,12 @@ public class InMemoryStudentRepository implements IStudentRepository {
     }
 
     @Override
-    public void insert(Student student) throws SQLException {
-        studentMap.put(student.getId(), student);
+    public void insert(StudentDTO student) throws SQLException {
+        studentMap.put(student.id, student);
     }
 
     // Tuỳ chọn: dùng để test hoặc in danh sách
-    public Map<String, Student> getAllStudents() {
+    public Map<String, StudentDTO> getAllStudents() {
         return studentMap;
     }
 }

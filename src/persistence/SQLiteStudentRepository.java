@@ -1,8 +1,6 @@
 package persistence;
 
-import business.Student;
-import business.SoftwareStudent;
-import business.EconomicsStudent;
+
 import java.sql.*;
 
 public class SQLiteStudentRepository implements IStudentRepository {
@@ -35,35 +33,31 @@ public class SQLiteStudentRepository implements IStudentRepository {
         return found;
     }
 
+   
+
     @Override
-    public void insert(Student student) throws SQLException {
+    public void insert(StudentDTO student) throws SQLException {
         PreparedStatement ps = conn.prepareStatement(
             "INSERT INTO Students VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        ps.setString(1, student.getId());
-        ps.setString(2, student.getName());
-        ps.setString(3, student.getBirthDate());
-        ps.setString(4, student.getMajor());
-
-        if (student instanceof SoftwareStudent) {
-            SoftwareStudent s = (SoftwareStudent) student;
-            ps.setDouble(5, s.calculateGPA()==0?0:s.calculateGPA()); // placeholder for actual fields
-            ps.setDouble(5, s.getJavaScore());
-            ps.setDouble(6, s.getHtmlScore());
-            ps.setDouble(7, s.getCssScore());
-            ps.setNull(8, Types.REAL);
-            ps.setNull(9, Types.REAL);
+        ps.setString(1, student.id);
+        ps.setString(2, student.name);
+        ps.setString(3, student.birth);
+        ps.setString(4, student.major);
+        if ("Kỹ thuật phần mềm".equals(student.major)) {
+            ps.setObject(5, student.java, java.sql.Types.REAL);
+            ps.setObject(6, student.html, java.sql.Types.REAL);
+            ps.setObject(7, student.css, java.sql.Types.REAL);
+            ps.setNull(8, java.sql.Types.REAL);
+            ps.setNull(9, java.sql.Types.REAL);
         } else {
-            EconomicsStudent e = (EconomicsStudent) student;
-            ps.setNull(5, Types.REAL);
-            ps.setNull(6, Types.REAL);
-            ps.setNull(7, Types.REAL);
-            ps.setDouble(8, e.getMarketingScore());
-            ps.setDouble(9, e.getSalesScore());
-        
+            ps.setNull(5, java.sql.Types.REAL);
+            ps.setNull(6, java.sql.Types.REAL);
+            ps.setNull(7, java.sql.Types.REAL);
+            ps.setObject(8, student.marketing, java.sql.Types.REAL);
+            ps.setObject(9, student.sales, java.sql.Types.REAL);
         }
-
-        ps.setDouble(10, student.calculateGPA());
-        ps.setString(11, student.classifyAcademic());
+        ps.setNull(10, java.sql.Types.REAL); // GPA tính ở business
+        ps.setNull(11, java.sql.Types.VARCHAR); // Academic classification tính ở business
         ps.executeUpdate();
         ps.close();
     }

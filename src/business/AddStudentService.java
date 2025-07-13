@@ -26,19 +26,20 @@ public class AddStudentService {
         validateBirth(birth);
         validateMajor(major);
 
-        Student student;
+        StudentDTO dto = new StudentDTO();
+        dto.id = id;
+        dto.name = name;
+        dto.birth = birth;
+        dto.major = major;
         if (major.equals("Kỹ thuật phần mềm")) {
-            double j = parseScore(javaStr, "Java");
-            double h = parseScore(htmlStr, "HTML");
-            double c = parseScore(cssStr, "CSS");
-            student = new SoftwareStudent(id, name, birth, j, h, c);
+            dto.java = parseScore(javaStr, "Java");
+            dto.html = parseScore(htmlStr, "HTML");
+            dto.css = parseScore(cssStr, "CSS");
         } else {
-            double m = parseScore(marketingStr, "Marketing");
-            double s = parseScore(salesStr, "Sales");
-            student = new EconomicsStudent(id, name, birth, m, s);
+            dto.marketing = parseScore(marketingStr, "Marketing");
+            dto.sales = parseScore(salesStr, "Sales");
         }
-
-        repository.insert(student);
+        repository.insert(dto);
     }
 
     private void validateId(String id) throws Exception {
