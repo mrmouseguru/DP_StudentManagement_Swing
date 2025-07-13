@@ -59,7 +59,7 @@ public class StudentListViewScreen {
 
         // ==== LOAD DATA ====
         try {
-            StudentListViewRepository repo = new StudentListViewRepositoryImpl("students.db");
+            IStudentListViewRepository repo = new StudentListViewRepositoryImpl("students.db");
             StudentListViewService service = new StudentListViewService(repo);
             List<Student> students = service.fetchAllStudents();
 

@@ -2,13 +2,13 @@ package business;
 
 import java.util.List;
 
-import persistence.StudentListViewRepository;
+import persistence.IStudentListViewRepository;
 import persistence.StudentDTO;
 
 public class StudentListViewService {
-    private StudentListViewRepository repository;
+    private IStudentListViewRepository repository;
 
-    public StudentListViewService(StudentListViewRepository repository) {
+    public StudentListViewService(IStudentListViewRepository repository) {
         this.repository = repository;
     }
 

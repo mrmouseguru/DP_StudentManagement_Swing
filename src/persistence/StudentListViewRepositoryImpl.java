@@ -10,7 +10,7 @@ import java.util.List;
 
 import persistence.StudentDTO;
 
-public class StudentListViewRepositoryImpl implements StudentListViewRepository {
+public class StudentListViewRepositoryImpl implements IStudentListViewRepository {
     private Connection conn;
 
     public StudentListViewRepositoryImpl(String dbPath) throws SQLException {

@@ -6,6 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import java.util.List;
-public interface StudentListViewRepository {
+public interface IStudentListViewRepository {
     List<StudentDTO> loadAll() throws SQLException;
 }
