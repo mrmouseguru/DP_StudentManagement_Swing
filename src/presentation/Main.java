@@ -1,25 +1,13 @@
 package presentation;
 
-import java.sql.SQLException;
-
-import business.*;
-import persistence.*;
-
 public class Main {
     public static void main(String[] args) {
-        IStudentListViewRepository repo = null;
         try {
-            repo = new StudentListViewRepositoryImpl("students.db");
-        } catch (SQLException e) {
+            StudentListViewController controller = AppFactory.createStudentListMVC();
+            controller.loadStudentList();
+            controller.getView().show(); // Bạn có thể thêm phương thức getView() trong controller nếu muốn
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        StudentListViewService service = new StudentListViewService(repo);
-        StudentListModel model = new StudentListModel();
-        StudentListViewScreen view = new StudentListViewScreen();
-        model.addObserver(view);
-        StudentListViewController controller = new StudentListViewController(view, model, service);
-
-        controller.loadStudentList();
-        view.show();
     }
 }

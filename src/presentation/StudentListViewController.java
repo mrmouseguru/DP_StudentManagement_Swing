@@ -22,4 +22,8 @@ public class StudentListViewController {
             view.showError("Lỗi tải dữ liệu: " + e.getMessage());
         }
     }
+
+    public StudentListViewScreen getView() {
+        return view;
+    }
 }
