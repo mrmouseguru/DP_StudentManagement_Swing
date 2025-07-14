@@ -7,5 +7,5 @@ public interface IMVCFactory {
     StudentListModel createModel();
     StudentListViewScreen createView();
     StudentListViewController createController();
-    StudentListViewService createService();
+    StudentListViewCommand createService();
 }

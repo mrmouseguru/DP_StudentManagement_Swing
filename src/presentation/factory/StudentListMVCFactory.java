@@ -16,10 +16,10 @@ public class StudentListMVCFactory implements IMVCFactory {
     }
 
     @Override
-    public StudentListViewService createService() {
+    public StudentListViewCommand createService() {
         try {
             IStudentListViewRepository repo = new StudentListViewRepositoryImpl("students.db");
-            return new StudentListViewService(repo);
+            return new StudentListViewCommand(repo);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +29,7 @@ public class StudentListMVCFactory implements IMVCFactory {
     public StudentListViewController createController() {
         StudentListModel model = createModel();
         StudentListViewScreen view = createView();
-        StudentListViewService service = createService();
+        StudentListViewCommand service = createService();
         
         // Đăng ký observer
         model.addObserver(view);

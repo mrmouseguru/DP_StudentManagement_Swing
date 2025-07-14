@@ -9,10 +9,10 @@ import java.util.List;
 public class StudentListViewController {
     private StudentListViewScreen view;
     private StudentListModel model;
-    private StudentListViewService service;
+    private StudentListViewCommand service;
     private CommandInvoker commandInvoker;
 
-    public StudentListViewController(StudentListViewScreen view, StudentListModel model, StudentListViewService service) {
+    public StudentListViewController(StudentListViewScreen view, StudentListModel model, StudentListViewCommand service) {
         this.view = view;
         this.model = model;
         this.service = service;

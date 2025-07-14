@@ -6,10 +6,10 @@ import business.command.ICommand;
 import persistence.IStudentListViewRepository;
 import persistence.StudentDTO;
 
-public class StudentListViewService implements ICommand<List<StudentListViewModel>> {
+public class StudentListViewCommand implements ICommand<List<StudentListViewModel>> {
     private IStudentListViewRepository repository;
 
-    public StudentListViewService(IStudentListViewRepository repository) {
+    public StudentListViewCommand(IStudentListViewRepository repository) {
         this.repository = repository;
     }
 
