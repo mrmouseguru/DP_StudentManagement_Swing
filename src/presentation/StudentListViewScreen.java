@@ -84,6 +84,10 @@ public class StudentListViewScreen implements StudentListModelObserver {
         }
     }
 
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+
     public JFrame getFrame() {
         return frame;
     }
