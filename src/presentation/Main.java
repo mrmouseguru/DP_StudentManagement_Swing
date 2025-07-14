@@ -1,11 +1,14 @@
 package presentation;
 
+import presentation.factory.*;
+
 public class Main {
     public static void main(String[] args) {
         try {
-            StudentListViewController controller = AppFactory.createStudentListMVC();
+            IMVCFactory factory = new StudentListMVCFactory();
+            StudentListViewController controller = factory.createController();
             controller.loadStudentList();
-            controller.getView().show(); // Bạn có thể thêm phương thức getView() trong controller nếu muốn
+            controller.getView().show();
         } catch (Exception e) {
             e.printStackTrace();
         }
