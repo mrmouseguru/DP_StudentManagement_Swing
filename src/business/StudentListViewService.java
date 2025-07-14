@@ -2,18 +2,19 @@ package business;
 
 import java.util.List;
 import java.util.ArrayList;
-
+import business.command.ICommand;
 import persistence.IStudentListViewRepository;
 import persistence.StudentDTO;
 
-public class StudentListViewService {
+public class StudentListViewService implements ICommand<List<StudentListViewModel>> {
     private IStudentListViewRepository repository;
 
     public StudentListViewService(IStudentListViewRepository repository) {
         this.repository = repository;
     }
 
-    public List<StudentListViewModel> fetchAllStudents() throws Exception {
+    @Override
+    public List<StudentListViewModel> execute() throws Exception {
         List<StudentDTO> dtos = repository.loadAll();
         List<StudentListViewModel> result = new ArrayList<>();
         for (StudentDTO dto : dtos) {
