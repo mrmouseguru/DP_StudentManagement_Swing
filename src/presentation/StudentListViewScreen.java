@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.List;
 import business.StudentListViewModel;
 
-public class StudentListViewScreen {
+public class StudentListViewScreen implements StudentListModelObserver {
     private JFrame frame;
     private DefaultTableModel tableModel;
     private JTable table;
@@ -67,12 +67,15 @@ public class StudentListViewScreen {
         frame.setVisible(true);
     }
 
-    // Nhận model và render dữ liệu lên bảng
+    @Override
+    public void onStudentListChanged(StudentListModel model) {
+        setModel(model);
+    }
+
     public void setModel(StudentListModel model) {
         tableModel.setRowCount(0);
-        List<StudentListViewModel> students = model.getStudents();
         int i = 1;
-        for (StudentListViewModel s : students) {
+        for (business.StudentListViewModel s : model.getStudents()) {
             tableModel.addRow(new Object[] {
                 i++, s.id, s.name, s.birth, s.major,
                 s.gpa != null ? String.format("%.2f", s.gpa) : "",

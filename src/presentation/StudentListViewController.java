@@ -18,7 +18,7 @@ public class StudentListViewController {
     public void loadStudentList() {
         try {
             model.setStudents(service.fetchAllStudents());
-            view.setModel(model);
+            // Không cần gọi view.setModel(model) nữa!
         } catch (Exception e) {
             JOptionPane.showMessageDialog(view.getFrame(), "Lỗi tải dữ liệu: " + e.getMessage());
         }

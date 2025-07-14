@@ -11,12 +11,12 @@ public class Main {
         try {
             repo = new StudentListViewRepositoryImpl("students.db");
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         StudentListViewService service = new StudentListViewService(repo);
         StudentListModel model = new StudentListModel();
         StudentListViewScreen view = new StudentListViewScreen();
+        model.addObserver(view);
         StudentListViewController controller = new StudentListViewController(view, model, service);
 
         controller.loadStudentList();
