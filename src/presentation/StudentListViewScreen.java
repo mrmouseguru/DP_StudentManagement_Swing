@@ -4,13 +4,15 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.util.List;
-import persistence.*;
-import business.StudentListViewService;
 import business.StudentListViewModel;
 
 public class StudentListViewScreen {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Danh sách sinh viên");
+    private JFrame frame;
+    private DefaultTableModel tableModel;
+    private JTable table;
+
+    public StudentListViewScreen() {
+        frame = new JFrame("Danh sách sinh viên");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 450);
         frame.setLayout(new BorderLayout());
@@ -39,12 +41,12 @@ public class StudentListViewScreen {
 
         // ==== TABLE ====
         String[] columns = { "STT", "Mã SV", "Tên SV", "Ngày sinh", "Ngành học", "Điểm TB", "Học lực" };
-        DefaultTableModel model = new DefaultTableModel(columns, 0);
-        JTable table = new JTable(model);
+        tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
 
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("SansSerif", Font.BOLD, 14));
-        header.setBackground(new Color(173, 216, 0)); // xanh lá
+        header.setBackground(new Color(173, 216, 0));
         header.setForeground(Color.WHITE);
         ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
@@ -58,26 +60,28 @@ public class StudentListViewScreen {
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // ==== LOAD DATA ====
-        try {
-            IStudentListViewRepository repo = new StudentListViewRepositoryImpl("students.db");
-            StudentListViewService service = new StudentListViewService(repo);
-            List<StudentListViewModel> students = service.fetchAllStudents();
-
-            int i = 1;
-            for (StudentListViewModel s : students) {
-                model.addRow(new Object[] {
-                        i++, s.id, s.name, s.birth, s.major,
-                        s.gpa != null ? String.format("%.2f", s.gpa) : "",
-                        s.academicRank != null ? s.academicRank : ""
-                });
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(frame, "Lỗi tải dữ liệu: " + e.getMessage());
-        }
-
         frame.setLocationRelativeTo(null);
+    }
+
+    public void show() {
         frame.setVisible(true);
+    }
+
+    // Nhận model và render dữ liệu lên bảng
+    public void setModel(StudentListModel model) {
+        tableModel.setRowCount(0);
+        List<StudentListViewModel> students = model.getStudents();
+        int i = 1;
+        for (StudentListViewModel s : students) {
+            tableModel.addRow(new Object[] {
+                i++, s.id, s.name, s.birth, s.major,
+                s.gpa != null ? String.format("%.2f", s.gpa) : "",
+                s.academicRank != null ? s.academicRank : ""
+            });
+        }
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }
