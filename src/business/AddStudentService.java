@@ -1,27 +1,31 @@
 package business;
 
 import persistence.*;
-import business.StudentFactory;
+import business.command.ICommand;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class AddStudentService {
+public class AddStudentService implements ICommand<Void> {
+    private AddStudentRequest request;
     private IStudentRepository repository;
 
-    public AddStudentService(IStudentRepository repository) {
+    public AddStudentService(AddStudentRequest request, IStudentRepository repository) {
+        this.request = request;
         this.repository = repository;
     }
 
-public void addStudent(AddStudentRequest req) throws Exception {
+    @Override
+    public Void execute() throws Exception {
         // Validation
-        validateId(req.id);
-        validateName(req.name);
-        validateBirth(req.birth);
-        validateMajor(req.major);
+        validateId(request.id);
+        validateName(request.name);
+        validateBirth(request.birth);
+        validateMajor(request.major);
 
-        Student student = StudentFactory.create(req);
+        Student student = StudentFactory.create(request);
         StudentDTO dto = this.toDTO(student);
         repository.insert(dto);
+        return null;
     }
     // Chuyển đối tượng Student sang StudentDTO
     private StudentDTO toDTO(Student student) {
